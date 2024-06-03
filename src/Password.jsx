@@ -6,6 +6,28 @@ const Password = () => {
     const [includeLowerCase, setIncludeLowerCase] = useState(true);
     const [includeNumbers, setIncludeNumbers] = useState(true);
     const [includeSymbols, setIncludeSymbols] = useState(true);
+    const[password,setPassword]=useState('');
+    
+    const generatepassword = (includeUpperCase) => {
+        let charset = "";
+        if (includeUpperCase) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (includeLowerCase) charset += "abcdefghijklmnopqrstuvwxyz";
+        if (includeNumbers) charset += "0123456789";
+        if (includeSymbols) charset += "!@#$%^&*()_+=-";
+        // console.log(charset)
+        let generatepassword="";
+        for( let i=0;i<length;i++){
+            const randomindex=Math.floor(Math.random()* charset.length);
+            generatepassword +=charset[randomindex];
+        }
+        setPassword(generatepassword);      
+       
+    };
+    const copyToClipboard=()=>{
+        navigator.clipboard.writeText(password);
+    }
+
+    
 
     return (
         <>
@@ -36,10 +58,10 @@ const Password = () => {
                     onChange={(e)=>setIncludeSymbols(e.target.checked)} />
                     <label htmlFor='symbol'>Include Symbols</label>
                 </div>
-                <button className='gen-btn'>Generate Password</button>
+                <button className='gen-btn' onClick={generatepassword}>Generate Password</button>
                 <div className="generate-password">
-                    <input type="text" readOnly />
-                    <button className='copy-btn'>Copy</button>
+                    <input type="text" readOnly value={password} />
+                    <button className='copy-btn' onClick={copyToClipboard}>Copy</button>
                 </div>
             </div>
         </>
